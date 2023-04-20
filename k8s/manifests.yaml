@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge
+  namespace: examples
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      greymatter.io/cluster: examples-edge
+  template:
+    metadata:
+      labels:
+        greymatter.io/cluster: examples-edge
+    spec:
+      containers:
+        - name: sidecar
+          image: greymatter.jfrog.io/oci/greymatter-proxy:1.9.0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 10809
+            name: proxy
+          - containerPort: 8081
+            name: metrics
+          env:
+            - name: XDS_CLUSTER
+              value: examples-edge
+            - name: ENVOY_ADMIN_LOG_PATH
+              value: /dev/stdout
+            - name: PROXY_DYNAMIC
+              value: "true"
+            - name: XDS_ZONE
+              value: default-zone
+            - name: XDS_HOST
+              value: controlensemble.greymatter.svc.cluster.local
+            - name: XDS_PORT
+              value: "50000"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: tls-certs
+              mountPath: /etc/proxy/tls/sidecar
+      volumes:
+        - name: tls-certs
+          secret:
+            defaultMode: 420
+            secretName: greymatter-examples-edge-certs
+      imagePullSecrets:
+      - name: gm-docker-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge
+  namespace: examples
+spec:
+  ports:
+  - name: ingress
+    port: 10809
+    protocol: TCP
+    targetPort: 10809
+  selector:
+    greymatter.io/cluster: examples-edge
+  type: LoadBalancer
+
