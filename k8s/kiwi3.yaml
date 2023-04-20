@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kiwi3
+  namespace: examples
+  annotations:
+    greymatter.io/inject-sidecar-to: "9090"
+spec:
+  selector:
+    matchLabels:
+      app: kiwi3
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kiwi3
+    spec:
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_local_port_range
+            value: 12000 65000
+      containers:
+        - name: kiwi3
+          image: greymatter.jfrog.io/internal-oci/fake-service:v0.24.2
+      terminationGracePeriodSeconds: 0
+

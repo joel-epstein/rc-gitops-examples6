@@ -23,18 +23,14 @@ Edge: gsl.#Edge & {
 	business_impact:   "high"
 	owner:             "Examples"
 	capability:        ""
-	health_options: {
-		tls: gsl.#MTLSUpstream
-	}
+	
 	ingress: {
 		// Edge -> HTTP ingress to your container
 		(name): {
 			gsl.#HTTPListener
-			gsl.#MTLSListener
+			
 			port: 10809
-			filters: [
-				gsl.#InheadersFilter
-            ]	
+				
 		}
 	}
 }
