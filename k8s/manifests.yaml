@@ -15,16 +15,19 @@ spec:
     spec:
       containers:
         - name: sidecar
-          image: greymatter.jfrog.io/oci/greymatter-proxy:1.9.0
+          # image: greymatter.jfrog.io/oci/greymatter-proxy:1.9.0
+          image: greymatter.jfrog.io/dev-oci/greymatter-proxy:main
           imagePullPolicy: Always
           ports:
           - containerPort: 10809
-            name: proxy
-          - containerPort: 8081
-            name: metrics
+            name: ingress
+          - containerPort: 8082
+            name: stats
           env:
             - name: XDS_CLUSTER
               value: examples-edge
+            - name: ENVOY_ADMIN_PORT
+              value: "8002"
             - name: ENVOY_ADMIN_LOG_PATH
               value: /dev/stdout
             - name: PROXY_DYNAMIC
@@ -43,7 +46,7 @@ spec:
               cpu: 100m
               memory: 128Mi
       imagePullSecrets:
-      - name: gm-docker-secret
+      - name: greymatter-image-pull
 ---
 apiVersion: v1
 kind: Service

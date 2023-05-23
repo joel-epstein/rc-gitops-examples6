@@ -1,5 +1,7 @@
 package api
 
+import envoy_tls "envoyproxy.io/extensions/transport_sockets/tls/v3"
+
 #Cluster: {
 	name:         string
 	cluster_key:  string
@@ -270,22 +272,43 @@ package api
 }
 
 #ListenerSSLConfig: {
+	allow_expired_certificate?: bool
 	cert_key_pairs?: [...#CertKeyPathPair]
-	cipher_filter?: string
-	crl?:           #DataSource
+	cipher_filter?:                        string
+	crl?:                                  #DataSource
+	disable_stateless_session_resumption?: bool
+	full_scan_sni?:                        bool
+	match_subject_alt_names?: [...envoy_tls.#SubjectAltNameMatcher]
+	max_verify_depth?:   int
+	ocsp_staple_policy?: envoy_tls.#DownstreamTlsContext_OcspStaplePolicy
+	only_leaf_cert_crl?: bool
 	protocols?: [...string]
 	require_client_certs?: bool
+	session_ticket_key?: [...#DataSource]
+	session_timeout?: string
 	sni?: [...string]
-	trust_file?: string
+	trust_chain_verification?: string
+	trust_file?:               string
+	verify_certificate_hash?: [...string]
+	verify_certificate_spki?: [...string]
 }
 
 #ClusterSSLConfig: {
+	allow_expired_certificate?: bool
+	allow_renegotiation?:       bool
 	cert_key_pairs?: [...#CertKeyPathPair]
 	cipher_filter?: string
 	crl?:           #DataSource
+	match_subject_alt_names?: [...envoy_tls.#SubjectAltNameMatcher]
+	max_session_keys?:   int
+	max_verify_depth?:   int
+	only_leaf_cert_crl?: bool
 	protocols?: [...string]
-	sni?:        string
-	trust_file?: string
+	sni?:                      string
+	trust_chain_verification?: string
+	trust_file?:               string
+	verify_certificate_hash?: [...string]
+	verify_certificate_spki?: [...string]
 }
 
 #CorsConfig: {
@@ -472,31 +495,31 @@ package api
 }
 
 #Secret: {
-	secret_key?:             string
-	secret_name?:            string
-	secret_validation_name?: string
-	subject_names?: [...string]
+	allow_expired_certificate?: bool
+	cipher_filter?:             string
+	crl?:                       #DataSource
 	ecdh_curves?: [...string]
-	forward_client_cert_details?:     string
+	forward_client_cert_details?: string
+	match_subject_alt_names?: [...envoy_tls.#SubjectAltNameMatcher]
+	max_verify_depth?:                int
+	only_leaf_cert_crl?:              bool
+	secret_key?:                      string
+	secret_name?:                     string
+	secret_validation_name?:          string
 	set_current_client_cert_details?: #ClientCertDetails
-	checksum?:                        string
+	subject_names?: [...string]
+	trust_chain_verification?: string
+	trust_file?:               string
+	verify_certificate_hash?: [...string]
+	verify_certificate_spki?: [...string]
 }
 
 #ClientCertDetails: URI: bool
 
-#SSLConfig: {
-	cipher_filter?: string
-	protocols?: [...string]
-	cert_key_pairs?: [...#CertKeyPathPair]
-	require_client_certs?: bool
-	trust_file?:           string
-	sni?:                  [...string] | string
-	crl?:                  #DataSource
-}
-
 #CertKeyPathPair: {
 	certificate_path?: string
 	key_path?:         string
+	ocsp_staple_path?: string
 }
 
 #DataSource: {

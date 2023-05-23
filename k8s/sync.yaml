@@ -18,14 +18,15 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       imagePullSecrets:
-      - name: gm-docker-secret
+      - name: greymatter-image-pull
       volumes:
       - name: greymatter-sync-secret
         secret:
           secretName: greymatter-sync-secret
       containers:
       - name: greymatter-sync
-        image: greymatter.jfrog.io/oci/greymatter-cli:4.8.0
+        # image: greymatter.jfrog.io/oci/greymatter-cli:4.8.0
+        image: greymatter.jfrog.io/dev-oci/greymatter-cli:main
         imagePullPolicy: Always
         command: ["/usr/local/bin/greymatter"]
         args: [

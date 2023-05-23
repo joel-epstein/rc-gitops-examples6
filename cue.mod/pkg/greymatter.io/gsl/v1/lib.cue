@@ -41,7 +41,7 @@ import (
 	http2_protocol_options: {}
 }
 
-#HTTP2Listener: #HTTP2Listener
+#HTTP2Listener: #HTTP2Upstream
 
 #DefaultContext: #GlobalContext & {
 	mesh: {
@@ -52,11 +52,11 @@ import (
 
 	sidecar: {
 		// port for ingress traffic, matching the operator 
-		default_ingress_port: *10808 | _
+		default_ingress_port: *10908 | _
 		// port of the healtcheck service
 		healthcheck_port: *10910 | _
 		// port the sidecar serves metrics requests from
-		metrics_port: *8081 | _
+		metrics_port: *8082 | _
 	}
 
 	spire: {
