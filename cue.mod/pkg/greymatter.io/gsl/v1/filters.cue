@@ -446,8 +446,21 @@ _#lookupFilterSecrets: {
 				end
 			"""
 	}
+
+	_#OIDCAuthenticationSecrets
 }
 
+_#OIDCAuthenticationSecrets: {
+	// Hooks for secret injection
+	#secrets: {
+		client_secret?: #FilterSecret & {
+			filter: _#lookupFilters["oidc_authn"]
+			path:   "clientSecret"
+		}
+	}
+
+	oidc_authn_secrets: #secrets
+}
 #OIDCAuthenticationFilter: {
 	#options: {
 		//custom
@@ -473,7 +486,6 @@ _#lookupFilterSecrets: {
 		// required
 		additionalScopes: [...string]
 		clientId:        string
-		clientSecret:    string
 		authRealms:      *"realms" | string
 		authAdminRealms: *"admin/realms" | string
 		callbackPath?:   string
@@ -496,21 +508,13 @@ _#lookupFilterSecrets: {
 		http.#AuthenticationConfig
 	}
 
-	// Hooks for secret injection
-	#secrets: {
-		client_secret?: #FilterSecret & {
-			filter: _#lookupFilters["oidc_authn"]
-			path:   "clientSecret"
-		}
-	}
-
 	oidc_authn: http.#AuthenticationConfig & {
 		#options.tls
 		provider: "\(#options.provider_host)/\(#options.authRealms)/\(#options.realm)"
 		(_#extractSubset & {from: #options, into: http.#AuthenticationConfig}).output
 	}
 
-	oidc_authn_secrets: #secrets
+	_#OIDCAuthenticationSecrets
 }
 
 #OIDCValidationFilter: {

@@ -100,19 +100,19 @@ import (
 #TLSUpstream: #UpstreamTLSSchema & {
 	require_tls: true
 	ssl_config: {
-		protocols:      *["TLS_AUTO"] | _
-		cert_key_pairs: *[
-				{
-				certificate_path: *"/etc/proxy/tls/sidecar/server.crt" | _
-				key_path:         *"/etc/proxy/tls/sidecar/server.key" | _
-			},
-		] | _
+		protocols: *["TLS_AUTO"] | _
 	}
 }
 
 #MTLSUpstream: #UpstreamTLSSchema & {
 	#TLSUpstream
-	ssl_config: trust_file: *"/etc/proxy/tls/sidecar/ca.crt" | _
+	ssl_config: {
+		trust_file:     *"/etc/proxy/tls/sidecar/ca.crt" | _
+		cert_key_pairs: *[{
+			certificate_path: *"/etc/proxy/tls/sidecar/server.crt" | _
+			key_path:         *"/etc/proxy/tls/sidecar/server.key" | _
+		}] | _
+	}
 }
 
 #TLSListener: #ListenerTLSSchema & {
