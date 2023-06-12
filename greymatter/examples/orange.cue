@@ -16,7 +16,7 @@ Orange: gsl.#Service & {
 	name:          "orange"
 	display_name:  "Examples Orange"
 	version:       "v1.0.0"
-	description:   "EDIT ME"
+	description:   "EDIT ME LASAGNA"
 	api_endpoint:              "http://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	api_spec_endpoint:         "http://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	
