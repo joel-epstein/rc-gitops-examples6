@@ -21,7 +21,7 @@ Orange: gsl.#Service & {
 	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	
 	business_impact:           "low"
-	owner: "Examples"
+	owner: "Josh"
 	capability: ""
 	health_options: {
 		tls: gsl.#MTLSUpstream

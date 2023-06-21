@@ -14,14 +14,14 @@ Kiwi1: gsl.#Service & {
 
 	// name must follow the pattern namespace/name
 	name:          "kiwi1"
-	display_name:  "Examples Kiwi1"
+	display_name:  "JOSH"
 	version:       "v1.0.0"
 	description:   "Currently Not Accepting Feedback"
 	api_endpoint:              "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	
 	business_impact:           "low"
-	owner: "Examples"
+	owner: "Josh"
 	capability: ""
 	health_options: {
 		tls: gsl.#MTLSUpstream
