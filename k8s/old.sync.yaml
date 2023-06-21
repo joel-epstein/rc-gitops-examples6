@@ -1,3 +1,4 @@
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -22,11 +23,9 @@ spec:
       - name: greymatter-admin-sync
         secret:
           secretName: greymatter-admin-sync
-      - name: greymatter-sync-checkout
-        emptyDir: {}
       containers:
       - name: greymatter-sync
-        image: greymatter.jfrog.io/oci/greymatter-cli:4.8.1
+        image: greymatter.jfrog.io/oci/greymatter-cli:4.8.1-beta1
         imagePullPolicy: Always
         command: ["/usr/local/bin/greymatter"]
         args: [
@@ -39,6 +38,8 @@ spec:
           "--interval", "3s", 
           "--git-dir", "/var/lib/greymatter/checkout", 
           "--redis-addr", "greymatter-datastore.greymatter.svc.cluster.local:6379",
+          "--redis-passphrase", "",
+          "--redis-username", "",
           "--redis-db", "0"
         ]
         resources:
@@ -52,24 +53,9 @@ spec:
         - name: greymatter-admin-sync
           readOnly: true
           mountPath: "/var/lib/greymatter/.ssh"
-        - name: greymatter-sync-checkout
-          readOnly: false
-          mountPath: "/var/lib/greymatter/checkout"
         env:
         - name: SSH_KNOWN_HOSTS
           value: "/var/lib/greymatter/.ssh/known_hosts"
-        - name: GREYMATTER_REDIS_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: greymatter-admin-sync
-              key: redis_user 
-              optional: true
-        - name: GREYMATTER_REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: greymatter-admin-sync
-              key: redis_password
-              optional: true
         - name: GREYMATTER_GIT_REMOTE
           valueFrom:
             configMapKeyRef:
@@ -84,4 +70,4 @@ metadata:
   namespace: examples
 data:
   # property-like keys; each key maps to a simple value
-  GREYMATTER_GIT_REMOTE: ""
+  GREYMATTER_GIT_REMOTE: "git@github.com:joel-epstein/rc-gitops-examples6.git"

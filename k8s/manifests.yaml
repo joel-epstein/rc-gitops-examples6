@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: sidecar
-          image: greymatter.jfrog.io/oci/greymatter-proxy:1.9.1-beta1
+          image: greymatter.jfrog.io/oci/greymatter-proxy:1.9.1
           imagePullPolicy: Always
           ports:
           - containerPort: 10809
@@ -25,10 +25,10 @@ spec:
           env:
             - name: XDS_CLUSTER
               value: examples-edge
-            - name: ENVOY_ADMIN_PORT
-              value: "8002"
             - name: ENVOY_ADMIN_LOG_PATH
               value: /dev/stdout
+            - name: ENVOY_ADMIN_PORT
+              value: "8002"
             - name: PROXY_DYNAMIC
               value: "true"
             - name: XDS_ZONE

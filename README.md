@@ -5,7 +5,7 @@ A greymatter.io tenant GitOps repository using CUE! :rocket:
 
 ## Prerequisites
 
-* `greymatter` CLI v4.8.0+
+* `greymatter` CLI v4.8.1+
 * [CUE](https://cuelang.org/docs/install/)
 
 ## Getting Started
@@ -81,7 +81,8 @@ to do before we launch that sync StatefulSet:
 # GitOps SSH key
 # EDIT THIS to reflect your own, or some other SSH private key with access,
 # to the repository you would like the operator to use for GitOps.
-kubectl create secret generic greymatter-sync-secret \
+kubectl create secret generic greymatter-admin-sync \
+    --from-file=known_hosts=$HOME/.ssh/known_hosts \
     --from-file=ssh-private-key=$HOME/.ssh/id_ed25519 \
     --from-literal=password="REDACTED" \
     -n $MY_NAMESPACE
@@ -97,13 +98,15 @@ kubectl apply -f ./k8s/manifests.yaml -n $MY_NAMESPACE # this file contains your
 kubectl apply -f ./k8s/sync.yaml -n $MY_NAMESPACE # this deploys the greymatter.io sync service
 ```
 
-Once you've deployed your manifests retrieve the Kubernetes ingress service for your 
+#### Accessing Your Mesh
+
+Now that you've deployed your manifests, retrieve the Kubernetes ingress service for your 
 project's edge node:
 ```bash
 kubectl get svc edge-examples -n $MY_NAMESPACE
 ```
 
-Retrieve the hostname entry and port and populate the value in `greymatter/globals.cue`: `defaults.edge.endpoint`.
+Parse the hostname entry and port and populate the value in `greymatter/globals.cue`: `defaults.edge.endpoint`.
 This will become the route that traffic will flow through to your services.
 
 Commit the change, push to your repo, and happy requesting!
@@ -154,7 +157,7 @@ We recommend using Kubernetes secrets and volume mounts to independently manage 
 #### Securing Your Gateway
 A hook is provided for setting up TLS on the given edge gateway for your project. Please create a secret at the following location:
 ```bash
-kubectl create secret generic greymatter-examples-edge-certs \
+kubectl create secret generic greymatter-edge-ingress \
 	--from-file=ca.crt=./ca.crt \
 	--from-file=server.crt=./server.crt \
 	--from-file=server.key=./server.key \
