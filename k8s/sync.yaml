@@ -26,7 +26,7 @@ spec:
         emptyDir: {}
       containers:
       - name: greymatter-sync
-        image: greymatter.jfrog.io/oci/greymatter-cli:4.8.1
+        image: greymatter.jfrog.io/dev-oci/greymatter-cli:main
         imagePullPolicy: Always
         command: ["/usr/local/bin/greymatter"]
         args: [
@@ -84,4 +84,4 @@ metadata:
   namespace: examples
 data:
   # property-like keys; each key maps to a simple value
-  GREYMATTER_GIT_REMOTE: ""
+  GREYMATTER_GIT_REMOTE: "git@github.com:joel-epstein/rc-gitops-examples6.git"
