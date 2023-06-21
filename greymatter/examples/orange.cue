@@ -16,12 +16,12 @@ Orange: gsl.#Service & {
 	name:          "orange"
 	display_name:  "Examples Orange"
 	version:       "v1.0.0"
-	description:   "Not Accepting ANY FEEDBACK AT ALL"
+	description:   "Dinnertime"
 	api_endpoint:              "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	
 	business_impact:           "low"
-	owner: "Josh"
+	owner: "BLAHBLAH"
 	capability: ""
 	health_options: {
 		tls: gsl.#MTLSUpstream
