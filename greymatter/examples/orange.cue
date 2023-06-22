@@ -16,7 +16,7 @@ Orange: gsl.#Service & {
 	name:          "orange"
 	display_name:  "Examples Orange"
 	version:       "v1.0.0"
-	description:   "Dinnertime"
+	description:   "Another Description Field 999922"
 	api_endpoint:              "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	

@@ -16,7 +16,7 @@ Kiwi1: gsl.#Service & {
 	name:          "kiwi1"
 	display_name:  "Examples Kiwi1"
 	version:       "v1.0.0"
-	description:   "Pizza and Bowling and Shoes"
+	description:   "This is the description field1234"
 	api_endpoint:              "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	
