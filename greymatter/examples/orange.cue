@@ -20,7 +20,7 @@ Orange: gsl.#Service & {
 	api_endpoint:              "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
 	
-	business_impact:           "747"
+	business_impact:           "medium"
 	owner: "BLAHBLAH"
 	capability: ""
 	health_options: {
