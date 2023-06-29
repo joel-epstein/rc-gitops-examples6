@@ -23,14 +23,14 @@ Orange: gsl.#Service & {
 	business_impact:           "medium"
 	owner: "BLAHBLAH"
 	capability: ""
-	health_options: {
-		tls: gsl.#MTLSUpstream
-	}
+	// health_options: {
+	// 	tls: gsl.#MTLSUpstream
+	// }
 	// Orange -> ingress to your container
 	ingress: {
 		(name): {
 			gsl.#HTTPListener
-			gsl.#MTLSListener
+			// gsl.#MTLSListener
 			
 			//  NOTE: this must be filled out by a user. Impersonation allows other services to act on the behalf of identities
 			//  inside the system. Please uncomment if you wish to enable impersonation. If the servers list if left empty,
@@ -75,7 +75,7 @@ Orange: gsl.#Service & {
 			upstreams: (name): {
 				gsl.#Upstream
 				namespace: context.globals.namespace
-				gsl.#MTLSUpstream
+				// gsl.#MTLSUpstream
 			}
 		}
 	}

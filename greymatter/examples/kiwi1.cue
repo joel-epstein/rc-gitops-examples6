@@ -23,13 +23,13 @@ Kiwi1: gsl.#Service & {
 	business_impact:           "low"
 	owner: "FOOBAR"
 	capability: ""
-	health_options: {
-		tls: gsl.#MTLSUpstream
-	}
+	// health_options: {
+	// 	tls: gsl.#MTLSUpstream
+	// }
 	raw_upstreams: {
 		"remote-jwks": {
 			gsl.#Upstream
-			gsl.#TLSUpstream
+			// gsl.#TLSUpstream
 
 			instances: [
 				{
@@ -54,7 +54,7 @@ Kiwi1: gsl.#Service & {
 	ingress: {
 		(name): {
 			gsl.#HTTPListener
-			gsl.#MTLSListener
+			// gsl.#MTLSListener
 			
 			//  NOTE: this must be filled out by a user. Impersonation allows other services to act on the behalf of identities
 			//  inside the system. Please uncomment if you wish to enable impersonation. If the servers list if left empty,
@@ -119,7 +119,7 @@ Kiwi1: gsl.#Service & {
 			upstreams: (name): {
 				gsl.#Upstream
 				namespace: context.globals.namespace
-				gsl.#MTLSUpstream
+				// gsl.#MTLSUpstream
 			}
 		}
 	}
