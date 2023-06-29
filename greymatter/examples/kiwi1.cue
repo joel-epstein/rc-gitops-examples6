@@ -26,6 +26,30 @@ Kiwi1: gsl.#Service & {
 	health_options: {
 		tls: gsl.#MTLSUpstream
 	}
+	raw_upstreams: {
+		"remote-jwks": {
+			gsl.#Upstream
+			gsl.#TLSUpstream
+
+			instances: [
+				{
+					host: "iam2.greymatter.io"
+					port: 443
+				},
+			]
+
+			// ssl_config: {
+			// 	protocols: ["TLS_AUTO"]
+			// 	cert_key_pairs: [
+			// 		{
+			// 			certificate_path: "/etc/proxy/tls/iam2/server.crt"
+			// 			key_path:         "/etc/proxy/tls/iam2/server.key"
+			// 		},
+			// 	]
+
+			// }
+		}
+	}
 	// Kiwi1 -> ingress to your container
 	ingress: {
 		(name): {
@@ -60,6 +84,26 @@ Kiwi1: gsl.#Service & {
 					}
 				}
 			}
+			filters: [
+				gsl.#OIDCPipelineFilter & {
+					#options: {
+						provider_host: "https://iam2.greymatter.io"
+						clientId:      "greymatter"
+						callbackPath:  "/oauth"
+						serviceUrl:    "https://staging-01-team-a-wordpress.greymatter.io:10809"
+						realm:         "GAT"
+						additionalScopes: ["openid"]
+						provider_cluster: "remote-jwks"
+					}
+					#secrets: {
+						client_secret: gsl.#KubernetesSecret &{
+							namespace: "examples"
+							name: "my-secret-1"
+							key: "kiwi1"
+						}
+					}
+				},
+			]
 		}
 	}
 
