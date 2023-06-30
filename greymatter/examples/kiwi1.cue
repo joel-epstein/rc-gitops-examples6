@@ -23,38 +23,38 @@ Kiwi1: gsl.#Service & {
 	business_impact:           "low"
 	owner: "FOOBAR"
 	capability: ""
-	// health_options: {
-	// 	tls: gsl.#MTLSUpstream
-	// }
-	raw_upstreams: {
-		"remote-jwks": {
-			gsl.#Upstream
-			// gsl.#TLSUpstream
-
-			instances: [
-				{
-					host: "iam2.greymatter.io"
-					port: 443
-				},
-			]
-
-			// ssl_config: {
-			// 	protocols: ["TLS_AUTO"]
-			// 	cert_key_pairs: [
-			// 		{
-			// 			certificate_path: "/etc/proxy/tls/iam2/server.crt"
-			// 			key_path:         "/etc/proxy/tls/iam2/server.key"
-			// 		},
-			// 	]
-
-			// }
-		}
+	health_options: {
+		tls: gsl.#MTLSUpstream
 	}
+	// raw_upstreams: {
+	// 	"remote-jwks": {
+	// 		gsl.#Upstream
+	// 		// gsl.#TLSUpstream
+
+	// 		instances: [
+	// 			{
+	// 				host: "iam2.greymatter.io"
+	// 				port: 443
+	// 			},
+	// 		]
+
+	// 		// ssl_config: {
+	// 		// 	protocols: ["TLS_AUTO"]
+	// 		// 	cert_key_pairs: [
+	// 		// 		{
+	// 		// 			certificate_path: "/etc/proxy/tls/iam2/server.crt"
+	// 		// 			key_path:         "/etc/proxy/tls/iam2/server.key"
+	// 		// 		},
+	// 		// 	]
+
+	// 		// }
+	// 	}
+	// }
 	// Kiwi1 -> ingress to your container
 	ingress: {
 		(name): {
 			gsl.#HTTPListener
-			// gsl.#MTLSListener
+			gsl.#MTLSListener
 			
 			//  NOTE: this must be filled out by a user. Impersonation allows other services to act on the behalf of identities
 			//  inside the system. Please uncomment if you wish to enable impersonation. If the servers list if left empty,
@@ -84,25 +84,25 @@ Kiwi1: gsl.#Service & {
 					}
 				}
 			}
-			filters: [
-				gsl.#OIDCPipelineFilter & {
-					#options: {
-						provider_host: "https://iam2.greymatter.io"
-						clientId:      "greymatter"
-						callbackPath:  "/oauth"
-						serviceUrl:    "https://staging-01-team-a-wordpress.greymatter.io:10809"
-						realm:         "GAT"
-						additionalScopes: ["openid"]
-						provider_cluster: "remote-jwks"
-					}
-					#secrets: {
-						client_secret: gsl.#KubernetesSecret &{
-							namespace: "examples"
-							name: "my-secret-1"
-							key: "kiwi1"
-						}
-					}
-				},
+			// filters: [
+			// 	gsl.#OIDCPipelineFilter & {
+			// 		#options: {
+			// 			provider_host: "https://iam2.greymatter.io"
+			// 			clientId:      "greymatter"
+			// 			callbackPath:  "/oauth"
+			// 			serviceUrl:    "https://staging-01-team-a-wordpress.greymatter.io:10809"
+			// 			realm:         "GAT"
+			// 			additionalScopes: ["openid"]
+			// 			provider_cluster: "remote-jwks"
+			// 		}
+			// 		#secrets: {
+			// 			client_secret: gsl.#KubernetesSecret &{
+			// 				namespace: "examples"
+			// 				name: "my-secret-1"
+			// 				key: "kiwi1"
+			// 			}
+			// 		}
+			// 	},
 			]
 		}
 	}
@@ -119,7 +119,7 @@ Kiwi1: gsl.#Service & {
 			upstreams: (name): {
 				gsl.#Upstream
 				namespace: context.globals.namespace
-				// gsl.#MTLSUpstream
+				gsl.#MTLSUpstream
 			}
 		}
 	}
