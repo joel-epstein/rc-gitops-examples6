@@ -6,23 +6,22 @@ import (
 	"examples.module/greymatter:globals"
 )
 
-
 Orange: gsl.#Service & {
 	// A context provides global information from globals.cue
 	// to your service definitions.
 	context: Orange.#NewContext & globals
 
 	// name must follow the pattern namespace/name
-	name:          "orange"
-	display_name:  "Examples Orange"
-	version:       "v1.0.0"
-	description:   "Another Description Field 999922"
-	api_endpoint:              "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
-	api_spec_endpoint:         "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
-	
-	business_impact:           "medium"
-	owner: "BLAHBLAH"
-	capability: ""
+	name:              "orange"
+	display_name:      "Examples Orange"
+	version:           "v1.0.0"
+	description:       "Another Description Field 999922"
+	api_endpoint:      "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
+	api_spec_endpoint: "https://\(context.globals.edge_host)/services/\(context.globals.namespace)/\(name)/"
+
+	business_impact: "medium"
+	owner:           "Team Orange"
+	capability:      ""
 	health_options: {
 		tls: gsl.#MTLSUpstream
 	}
@@ -31,7 +30,7 @@ Orange: gsl.#Service & {
 		(name): {
 			gsl.#HTTPListener
 			gsl.#MTLSListener
-			
+
 			//  NOTE: this must be filled out by a user. Impersonation allows other services to act on the behalf of identities
 			//  inside the system. Please uncomment if you wish to enable impersonation. If the servers list if left empty,
 			//  all traffic will be blocked.
@@ -45,11 +44,11 @@ Orange: gsl.#Service & {
 			//	]
 			routes: {
 				"/": {
-					
+
 					upstreams: {
 						"local": {
 							gsl.#Upstream
-							
+
 							instances: [
 								{
 									host: "127.0.0.1"
@@ -63,8 +62,6 @@ Orange: gsl.#Service & {
 		}
 	}
 
-
-	
 	// Edge config for the Orange service.
 	// These configs are REQUIRED for your service to be accessible
 	// outside your cluster/mesh.
@@ -79,7 +76,7 @@ Orange: gsl.#Service & {
 			}
 		}
 	}
-	
+
 }
 
 exports: "orange": Orange
